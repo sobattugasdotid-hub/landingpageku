@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Portofolio Produk Digital</title>
+<meta name="description" content="Etalase produk digital: template, toolkit, dan aset kreatif siap pakai. Beli langsung lewat Lynk.id.">
+<meta name="theme-color" content="#7C3AED">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%237C3AED'/%3E%3Cpath d='M20 44V20h14a9 9 0 0 1 0 18H28' fill='none' stroke='white' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://script.google.com">
+<link rel="preconnect" href="https://drive.google.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <header id="pubnav" class="nav"></header>
+  <main id="view" tabindex="-1"></main>
+  <footer id="pubfoot"></footer>
+</div>
+<div id="modalRoot"></div>
+<div id="toastRoot" aria-live="polite"></div>
+<noscript><p style="padding:2rem;text-align:center">Aktifkan JavaScript untuk melihat etalase produk.</p></noscript>
+<script src="config.js"></script>
+<script>
+/* Mulai ambil data SEKARANG (paralel dengan pemuatan app.js) — hemat ~100-300 ms */
+(function(){var c=window.APP_CONFIG||{},u=c.GAS_URL;if(!u||/GANTI|XXXX/.test(u))return;
+try{var s=JSON.parse(localStorage.getItem('da_boot')||'null');
+window.__boot=fetch(u+'?action=boot'+(s&&s.pv?'&pv='+encodeURIComponent(s.pv):'')).then(function(r){return r.json()}).catch(function(){return null});}catch(e){}})();
+</script>
+<script src="app.js" defer></script>
+</body>
+</html>
