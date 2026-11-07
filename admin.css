@@ -174,3 +174,17 @@ textarea.inp{resize:vertical;line-height:22px}
 .row-b{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center}
 .chk{display:flex;align-items:center;gap:.5rem;font-size:14px}
 .grp{display:grid;gap:1rem}
+
+/* ---------- Perbaikan overflow: kolom grid boleh mengecil (teks panjang terpotong, tidak melebar) ---------- */
+#admMain,.adm-body{min-width:0}
+#admMain{grid-template-columns:minmax(0,1fr)}
+.adm{grid-template-columns:minmax(0,1fr)}
+@media(min-width:960px){.adm{grid-template-columns:260px minmax(0,1fr)}}
+.two,.statgrid,.grp,.tbl,.top,.hl{grid-template-columns:minmax(0,1fr)}
+@media(min-width:1100px){.two{grid-template-columns:minmax(0,1.6fr) minmax(0,1fr)}}
+@media(min-width:1100px){.statgrid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.two>*,.statgrid>*,.grp>*,.box,.top>div,.hl>div,.tr>*{min-width:0}
+.top span.t,.hl span.t{min-width:0;flex:1 1 0}
+.top span.v{flex:none}
+#ptbl,.tbl{max-width:100%;overflow-x:auto}
+.tbl .tr{min-width:0}
