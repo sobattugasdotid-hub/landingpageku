@@ -309,7 +309,9 @@
       '<div class="mmenu" id="mmenu"><nav>' + links + '</nav></div>';
     var soc = String(s.sosial || '').split(/[\s,]+/).filter(okLink).map(function (u) {
       var h = u.replace(/^https:\/\/(www\.)?/, '').split('/')[0];
-      return '<a class="t" href="' + esc(u) + '" target="_blank" rel="noopener noreferrer">' + ic('globe', 16) + esc(h) + '</a>';
+      var fav = 'https://www.google.com/s2/favicons?domain=' + encodeURIComponent(h) + '&sz=64';
+      return '<a class="t" href="' + esc(u) + '" target="_blank" rel="noopener noreferrer">' + ic('globe', 16) +
+        '<img class="fav" hidden alt="" width="18" height="18" loading="lazy" src="' + esc(fav) + '" onload="this.hidden=false;this.previousElementSibling.hidden=true">' + esc(h) + '</a>';
     }).join('');
     $('#pubfoot').innerHTML = '<div class="wrap"><div class="foot"><div><div class="brand" style="cursor:default">' + logoHTML(s) + '<span>' + esc(s.brand) + '</span></div><p>' + esc(s.sub || 'Etalase produk digital pilihan.') + '</p></div>' +
       '<div><h4>Navigasi Cepat</h4><nav><a href="#/">Beranda</a><a href="#/portofolio">Katalog Produk</a><button data-scroll="keunggulan">Keunggulan</button></nav></div>' +
