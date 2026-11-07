@@ -25,7 +25,7 @@
   function val(id) { var e = $(id); return e ? e.value : ''; }
   function host(u) { return String(u || '').replace(/^https?:\/\/(www\.)?/, ''); }
   async function sinkron() {
-    try { var r = await post('admin.boot'); apply(r.data); A.loaded = true; persist(); if (!modalOpen()) paintTab(); else A.pend = true; }
+    try { var r = await post('admin.boot'); apply(r.data); A.loaded = true; persist(); syncBrand(); if (!modalOpen()) paintTab(); else A.pend = true; }
     catch (e) { onErr(e); if (!A.loaded) $('#admMain').innerHTML = '<div class="box"><div class="empty-s">Data belum bisa dimuat. <button class="btn sm" data-a="muat" style="margin-left:.5rem">Coba Lagi</button></div></div>'; }
   }
 
@@ -70,9 +70,14 @@
     var nav = TABS.map(function (t) { return '<a href="#/admin/' + t[0] + '" data-t="' + t[0] + '">' + ic(t[2], 20) + ' ' + t[1] + '</a>'; }).join('');
     var btm = TABS.map(function (t) { return '<a href="#/admin/' + t[0] + '" data-t="' + t[0] + '">' + ic(t[2], 22) + '<span>' + t[1].replace('Kelola ', '') + '</span></a>'; }).join('');
     var br = A.set.brand || 'Digital Atelier';
-    $('#view').innerHTML = '<div class="adm" id="admShell"><aside class="side"><div class="side-top"><span class="logo">' + esc(br.charAt(0).toUpperCase()) + '</span><div><b>' + esc(br) + '</b><small>SUPERADMIN</small></div></div><nav>' + nav + '</nav>' +
+    $('#view').innerHTML = '<div class="adm" id="admShell"><aside class="side"><div class="side-top"><span class="logo" id="admBrandLogo">' + esc(br.charAt(0).toUpperCase()) + '</span><div><b id="admBrandName">' + esc(br) + '</b><small>SUPERADMIN</small></div></div><nav>' + nav + '</nav>' +
       '<div class="side-foot"><a href="#/">' + ic('home', 20) + ' Ke Etalase Publik</a><button data-a="keluar">' + ic('logout', 20) + ' Keluar</button></div></aside>' +
-      '<div class="adm-body"><header class="adm-top"><span class="logo">' + esc(br.charAt(0).toUpperCase()) + '</span><span>Console Administrasi</span><button class="out" data-a="keluar" aria-label="Keluar">' + ic('logout', 20) + '</button></header><main id="admMain"></main></div><nav class="btm">' + btm + '</nav></div>';
+      '<div class="adm-body"><header class="adm-top"><span class="logo" id="admBrandLogo2">' + esc(br.charAt(0).toUpperCase()) + '</span><span>Console Administrasi</span><button class="out" data-a="keluar" aria-label="Keluar">' + ic('logout', 20) + '</button></header><main id="admMain"></main></div><nav class="btm">' + btm + '</nav></div>';
+  }
+  function syncBrand() {
+    var br = (A.set && A.set.brand) || 'Digital Atelier', ini = br.charAt(0).toUpperCase();
+    var n = $('#admBrandName'); if (n) n.textContent = br;
+    ['#admBrandLogo', '#admBrandLogo2'].forEach(function (id) { var l = $(id); if (l) l.textContent = ini; });
   }
   function markNav() { document.querySelectorAll('#admShell [data-t]').forEach(function (a) { a.classList.toggle('on', a.dataset.t === A.tab); }); }
   function render(view, seg) {
@@ -84,7 +89,7 @@
     document.title = 'Console Administrasi';
     var fresh = !$('#admShell');
     if (fresh) { shell(); }
-    markNav();
+    markNav(); syncBrand();
     if (!A.loaded) {
       var c = LS.get('da_adm');
       if (c) { apply(c); A.loaded = true; }
@@ -332,9 +337,9 @@
     var b = $('#sbtn'); b.disabled = true; b.textContent = 'Menyimpan…'; await F.chain;
     var prev = Object.assign({}, A.set);
     A.set = { brand: brand, judul: val('#s-judul').trim(), sub: val('#s-sub').trim(), toko: toko, kontak: val('#s-kontak'), sosial: val('#s-sosial'), foto: (F.fotos[0] || {}).id || '' };
-    persist(); b.disabled = false; b.textContent = 'Simpan Pengaturan'; toast('Menyimpan…');
+    persist(); syncBrand(); b.disabled = false; b.textContent = 'Simpan Pengaturan'; toast('Menyimpan…');
     try { await post('pengaturan.simpan', A.set); toast('Pengaturan tersimpan.', 'ok'); refreshSoon(); }
-    catch (e) { A.set = prev; persist(); onErr(e); paintTab(); }
+    catch (e) { A.set = prev; persist(); syncBrand(); onErr(e); paintTab(); }
   }
 
   // ---------- aksi (delegasi klik) ----------
